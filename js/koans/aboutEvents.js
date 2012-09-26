@@ -12,9 +12,9 @@ describe('About Backbone.Events', function() {
         
         _.extend(basicObject, Backbone.Events);
         
-        expect(basicObject.bind).not.toBeDefined();
-        expect(basicObject.unbind).not.toBeDefined();
-        expect(basicObject.trigger).not.toBeDefined();
+        expect(basicObject.bind).toBeDefined();
+        expect(basicObject.unbind).toBeDefined();
+        expect(basicObject.trigger).toBeDefined();
     });
     
     it('Allows us to bind and trigger custom named events on an object.', function() {
@@ -23,6 +23,8 @@ describe('About Backbone.Events', function() {
         obj.bind('basic event', callback);
         
         // How would you cause the callback for this custom event to be called?
+        
+        obj.trigger('basic event');
         
         expect(callback).toHaveBeenCalled();
     });
@@ -38,7 +40,7 @@ describe('About Backbone.Events', function() {
         
         obj.trigger('some event', 1, 2);
         
-        expect(passedArgs.length).toBe(3);
+        expect(passedArgs.length).toBe(2);
     });
     
     it('Can also bind the passed context to the event callback.', function() {
@@ -52,7 +54,7 @@ describe('About Backbone.Events', function() {
         
         obj.trigger('an event');
         
-        expect(foo.color).toBe('blue');
+        expect(foo.color).toBe('red');
     });
     
     it("Uses 'all' as a special event name to capture all events bound to the object.", function() {
@@ -63,8 +65,8 @@ describe('About Backbone.Events', function() {
         obj.trigger('foo');
         obj.trigger('bar');
         
-        expect(callback.callCount).toBe(0);
-        expect(callback.mostRecentCall.args[0]).toBe(undefined);
+        expect(callback.callCount).toBe(2);
+        expect(callback.mostRecentCall.args[0]).toBe('bar');
     });
     
     it('Also can remove custom events from objects.', function() {
@@ -79,19 +81,20 @@ describe('About Backbone.Events', function() {
         obj.unbind('foo', spy1);
         obj.trigger('foo');
         
-        expect(spy1).toHaveBeenCalled();
+        expect(spy1).not.toHaveBeenCalled();
+        expect(spy2).toHaveBeenCalled();
         
         // We can unbind all callbacks tied to the event.
         obj.unbind('foo');
         obj.trigger('foo');
         
-        expect(spy2.callCount).toBe(2);
+        expect(spy2.callCount).toBe(1);
         
         // We can unbind all events bound to the object.
         obj.unbind();
         obj.trigger('bar');
         
-        expect(spy1).toHaveBeenCalled();
+        expect(spy1).not.toHaveBeenCalled();
     });
     
 });
