@@ -1,6 +1,6 @@
 /* global $, _, Backbone */
 (function() {
-    var TEMPLATE_URL = '';
+    var TEMPLATE_URL = 'https://c9.io/adhd360/backbone-koans/workspace';
     
     var NAUGHTY_WORDS = /crap|poop|hell|frogs/gi;
     

@@ -12,12 +12,12 @@ describe('About Backbone.View', function() {
     });
     
     it('Should be tied to a DOM element when created, based off the property provided.', function() {
-        expect(todoView.el.tagName.toLowerCase()).toBe('what html element tag name represents this view?');
+        expect(todoView.el.tagName.toLowerCase()).toBe('li');
     });
     
     it('Is backed by a model instance, which provides the data.', function() {
         expect(todoView.model).toBeDefined();
-        expect(todoView.model.get('done')).toBe("What's the value for Todo.get('done') here?");
+        expect(todoView.model.get('done')).toBeFalsy();
     });
     
     it('Can render, after which the DOM representation of the view will be visible.', function() {
@@ -28,6 +28,8 @@ describe('About Backbone.View', function() {
         //       How do you access the view's DOM representation?
         //
         // Hint: http://documentcloud.github.com/backbone/#View-el
+        
+        $('#todoList').append(todoView.el);
         
         expect($('#todoList').find('li').length).toBe(1);
     });
@@ -50,6 +52,8 @@ describe('About Backbone.View', function() {
             //       (See todos.js line 70, where the events hash is defined.)
             //
             // Hint: http://api.jquery.com/click
+            
+            viewElt.click();
             
             expect(todoView.model.get('done')).toBe(true);
         });
