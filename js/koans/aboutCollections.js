@@ -6,20 +6,20 @@ describe('About Backbone.Collection', function() {
         
         todos.add({ text: 'Clean the kitchen' });
         
-        expect(todos.length).toBe("How many models are in the collection now?");
+        expect(todos.length).toBe(1);
         
         todos.add([
             { text: 'Do the laundry', done: true }, 
             { text: 'Go to the gym'}
         ]);
         
-        expect(todos.length).toBe("How many models are in the collection now?");
+        expect(todos.length).toBe(3);
     });
     
     it('Can have a url property to define the basic url structure for all contained models.', function() {
         var todos = new TodoList();
         
-        expect(todos.url).toBe('what goes here?');
+        expect(todos.url).toBe('/todos/');
     });
     
     it('Fires custom named events when the models change.', function() {
@@ -30,12 +30,19 @@ describe('About Backbone.Collection', function() {
         
         // How would you get the 'add' event to trigger?
         
+        todos.add([
+            { text:'buy Whiskey' },
+            { text:'buy ice' }
+        ]);
+        
         expect(addModelCallback).toHaveBeenCalled();
         
         var removeModelCallback = jasmine.createSpy('-remove model callback-');
         todos.bind('remove', removeModelCallback);
         
         // How would you get the 'remove' callback to trigger?
+        
+        todos.remove( todos.last() );
         
         expect(removeModelCallback).toHaveBeenCalled();
     });
