@@ -3,21 +3,21 @@ describe('About Backbone.Model', function() {
     it('Can be created with default values for its attributes.', function() {
         var todo = new Todo();
         
-        expect(todo.get('text')).toBe("What should the default be here?");
+        expect(todo.get('text')).toBe("");
     });
     
     it('Will set passed attributes on the model instance when created.', function() {
         var todo = new Todo({ text: 'Get oil change for car.' });
         
-        expect(todo.get('text')).toBe("FIX ME");
-        expect(todo.get('done')).toBe("FIX ME");
-        expect(todo.get('order')).toBe("FIX ME");
+        expect(todo.get('text')).toBe("Get oil change for car.");
+        expect(todo.get('done')).toBeFalsy();
+        expect(todo.get('order')).toBe(0);
     });
     
     it('Will call a custom initialize function on the model instance when created.', function() {
         var toot = new Todo({ text: 'Stop monkeys from throwing their own crap!' });
         
-        expect(toot.get('text')).toBe('Stop monkeys from throwing their own crap!');
+        expect(toot.get('text')).toBe('Stop monkeys from throwing their own rainbows!');
     });
     
     it('Fires a custom event when the state changes.', function() {
@@ -30,6 +30,8 @@ describe('About Backbone.Model', function() {
         // How would you update a property on the todo here?
         // Hint: http://documentcloud.github.com/backbone/#Model-set
         
+        todo.set({ done:true });
+        
         expect(spy).toHaveBeenCalled();
     });
     
@@ -41,6 +43,8 @@ describe('About Backbone.Model', function() {
         todo.bind('error', errorCallback);
         
         // What would you need to set on the todo properties to cause validation to fail?
+        
+        todo.set({ done:'booleanMonkey' });
         
         var errorArgs = errorCallback.mostRecentCall.args;
         
